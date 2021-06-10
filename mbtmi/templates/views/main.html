@@ -1,0 +1,19 @@
+{% extends "common.html" %} {% block body %}
+<main class="px-3">
+    <h1>MBTMI</h1>
+    {% if message %}
+    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
+    <p class="lead">심리테스트 찾기</p>
+    <div class="container text-start">
+        {% for test in tests %}
+        <div class="card bg-dark border-light mb-3 mt-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ test.title }}</h5>
+                <a href="{{ url_for('view_test', test_id=test.id) }}" class="btn btn-secondary border-white">이 테스트 하러가기</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

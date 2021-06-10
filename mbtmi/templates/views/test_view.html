@@ -1,0 +1,45 @@
+{% extends "common.html" %} {% block body %}
+<main class="px-3">
+    <div class="lead">
+        <h1>{{ test.title }}</h1>
+        <p>총 {{ q_count }}개의 질문이 있습니다.</p>
+    </div>
+    <hr>
+    <form action="{{ url_for('submit_test_result') }}" method="POST" id="form--test">
+        <input type="hidden" name="test_id" value="{{ test.id }}">
+        {% for question in test.questions %}
+        <p>{{ question.content }}</p>
+        <div class="text-start">
+            <label class="form-label">{{ loop.index }}. {{ question.question_content }}</label>
+            <div class="input-group mb-3">
+                <input type="hidden" name="{{ question.id }}" value="" required>
+                <button class="btn btn-outline-secondary button--question" value="l" type="button">{{ question.answer_min_content }}</button>
+                <button class="btn btn-outline-secondary button--question" value="r" type="button">{{ question.answer_max_content }}</button>
+            </div>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary btn-success btn-lg mt-3">결과 제출하기</button>
+    </form>
+</main>
+<script>
+document.querySelectorAll('.button--question').forEach(function (el) {
+    el.addEventListener('click', function () {
+        this.parentNode.querySelector('input[type="hidden"]').setAttribute('value', this.getAttribute('value'))
+        this.parentNode.querySelectorAll('.btn').forEach(function (btn) {
+            btn.classList.remove('btn-outline-info')
+        })
+        this.classList.add('btn-outline-info')
+    })
+})
+document.querySelector('#form--test').addEventListener('submit', function (e) {
+    e.preventDefault()
+    var isValid = Array.from(this.querySelectorAll('input[type="hidden"]')).every(el => !!el.getAttribute('value'))
+    if (isValid) {
+        this.submit()
+    } else {
+        alert('모든 질문을 답변한 후 제출해 주세요!')
+    }
+})
+
+</script>
+{% endblock %}

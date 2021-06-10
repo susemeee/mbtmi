@@ -1,0 +1,32 @@
+{% extends "common.html" %} {% block body %}
+<main class="px-3">
+    <h1>{{ context }}</h1>
+    {% if message %}
+    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
+    <form action="{{ context_url }}" method="POST" class="text-start">
+        <div class="mb-3">
+            <label for="i-username" class="form-label">Username</label>
+            <input
+                type="text"
+                class="form-control"
+                name="username"
+                id="i-username"
+                required
+            />
+        </div>
+        <div class="mb-3">
+            <label for="i-password" class="form-label">Password</label>
+            <input
+                type="password"
+                class="form-control"
+                name="password"
+                id="i-password"
+                required
+            />
+        </div>
+        <button type="submit" class="btn btn-primary">{{ context }}</button>
+    </form>
+</main>
+
+{% endblock %}
